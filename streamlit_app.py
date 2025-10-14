@@ -24,10 +24,12 @@ ingredients_list = st.multiselect(
     max_selections=5
 )
 if ingredients_list:
+    ingredients_string = ''
     # Normalize ingredients string (space-delimited per your pattern; consider commas if preferred)
-    ingredients_string = " ".join(ingredients_list).strip()
-    smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
-    sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
+    for fruit_chosen in ingredients_list:
+        ingredients_string = " ".join(ingredients_list).strip()
+        smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+        sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
     # Escape single quotes to avoid breaking the SQL (still not as safe as binding)
     safe_ingredients = ingredients_string.replace("'", "''")
